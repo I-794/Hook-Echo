@@ -96,9 +96,21 @@ export interface PointInfo {
   radarStation: string;
   forecastUrl: string;
   forecastHourlyUrl: string;
+  observationStationsUrl: string;
   city: string;
   state: string;
   timeZone: string;
+}
+
+/** Current conditions from the nearest observation station's latest report. */
+export interface CurrentConditions {
+  tempF: number | null;
+  conditions: string;
+  windMph: number | null;
+  windDir: string;
+  humidity: number | null;
+  observedAt: string;
+  station: string;
 }
 
 /** A single forecast period from the NWS forecast endpoint. */

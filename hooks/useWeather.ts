@@ -11,6 +11,7 @@ import {
   fetchPointAlerts,
   fetchPointInfo,
   fetchForecast,
+  fetchObservation,
   fetchRadar,
 } from "@/lib/client";
 import { sortAlerts, isWarning, featureBounds } from "@/lib/alerts";
@@ -19,6 +20,7 @@ import type {
   PointInfo,
   ForecastResponse,
   RadarData,
+  CurrentConditions,
 } from "@/lib/types";
 
 export interface LatLon {
@@ -66,6 +68,7 @@ export function useWeather() {
   const [savedPoint, setSavedPointState] = useState<LatLon>(DEFAULT_POINT);
   const [pointInfo, setPointInfo] = useState<PointInfo | null>(null);
   const [forecast, setForecast] = useState<ForecastResponse | null>(null);
+  const [conditions, setConditions] = useState<CurrentConditions | null>(null);
 
   // Alerts accumulated per state code as the user pans the map.
   const [alertsByState, setAlertsByState] = useState<
@@ -135,7 +138,14 @@ export function useWeather() {
         if (info) {
           setPointInfo(info);
           if (info.state) await loadState(info.state);
-          // Conditions: first daytime/﻿current period of the forecast.
+          // Current conditions come from the nearest observation station's
+          // latest report (NOT a forecast period).
+          if (info.observationStationsUrl) {
+            fetchObservation(info.observationStationsUrl)
+              .then(setConditions)
+              .catch(() => setConditions(null));
+          }
+          // Forecast (used for the short "next period" line).
           fetchForecast(info.forecastUrl)
             .then(setForecast)
             .catch(() => setForecast(null));
@@ -265,6 +275,7 @@ export function useWeather() {
     setSavedPoint,
     pointInfo,
     forecast,
+    conditions,
     allAlerts,
     visibleAlerts,
     pointAlerts,

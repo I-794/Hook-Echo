@@ -49,7 +49,7 @@ export function Dashboard() {
   const [frameIndex, setFrameIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [radarVisible, setRadarVisible] = useState(true);
-  const [radarOpacity, setRadarOpacity] = useState(0.65);
+  const [radarOpacity, setRadarOpacity] = useState(0.8);
 
   const frames = w.radar?.frames ?? [];
 
@@ -185,7 +185,11 @@ export function Dashboard() {
 
           {/* Conditions card (top-left) */}
           <div className="absolute left-3 top-3 z-10 w-[260px] max-w-[calc(100%-1.5rem)]">
-            <ConditionsCard pointInfo={w.pointInfo} forecast={w.forecast} />
+            <ConditionsCard
+              pointInfo={w.pointInfo}
+              forecast={w.forecast}
+              conditions={w.conditions}
+            />
           </div>
 
           {/* Alert detail panel (right, above radar bar) */}

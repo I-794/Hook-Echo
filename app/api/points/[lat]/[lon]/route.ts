@@ -49,6 +49,7 @@ export async function GET(
       radarStation: p.radarStation,
       forecastUrl: p.forecast,
       forecastHourlyUrl: p.forecastHourly,
+      observationStationsUrl: p.observationStations,
       city: p.relativeLocation?.properties?.city ?? "",
       state: p.relativeLocation?.properties?.state ?? "",
       timeZone: p.timeZone,

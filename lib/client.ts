@@ -9,6 +9,7 @@ import type {
   ForecastResponse,
   RadarData,
   GeocodeResult,
+  CurrentConditions,
 } from "./types";
 
 async function getJSON<T>(url: string, signal?: AbortSignal): Promise<T> {
@@ -66,6 +67,16 @@ export async function fetchForecast(
 ): Promise<ForecastResponse> {
   return getJSON<ForecastResponse>(
     `/api/forecast?url=${encodeURIComponent(url)}`,
+    signal,
+  );
+}
+
+export async function fetchObservation(
+  observationStationsUrl: string,
+  signal?: AbortSignal,
+): Promise<CurrentConditions> {
+  return getJSON<CurrentConditions>(
+    `/api/observation?url=${encodeURIComponent(observationStationsUrl)}`,
     signal,
   );
 }
